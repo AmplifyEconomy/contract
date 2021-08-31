@@ -1,0 +1,23 @@
+{
+    "ticker": "AMP",
+    "balances": {
+        "t8SwacamcLm-UITL769OUd8vQe37Wh08dCS_qiLsEPA": 100000000
+    },
+    "networks": {
+        "network-name": {
+            "owner": "address",
+            "url": "https://amp-gw.online",
+            "description": "amplify gateway app network",
+            "consensus": "approval",
+            "network": "app",
+            "networkAppName": "amplify",
+            "token": "amp",
+            "pool": 100,
+            "epoch": 10,
+            "distribution": 1,
+            "maxNodes": 10,
+            "pendingNodes": {},
+            "nodes": {}
+        }
+    }
+}

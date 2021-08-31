@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "deploy": "npm run build && node bin/deploy.js",
-    "test": "npx mocha test --timeout 10000",
+    "test": "npx mocha test --timeout 1000000",
     "build": "rollup --config ./rollup.config.js && node bin/format.js"
   },
   "dependencies": {
