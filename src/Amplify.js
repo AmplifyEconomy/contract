@@ -3,6 +3,7 @@ import { Balance } from './Balance';
 import { Create } from './Create';
 import { Network } from './Network';
 import { Name } from './Name';
+import { Delete } from './Delete';
 import { Join } from './Join';
 import { Approve } from './Approve';
 import { Deny } from './Deny';
@@ -21,6 +22,8 @@ export async function handle(state, action) {
       return Create(state, action);
     case 'name':
       return Name(state, action);
+    case 'delete':
+      return Delete(state, action);
     case 'network':
       return Network(state, action);
     case 'join':

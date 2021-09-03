@@ -25,7 +25,8 @@ export function Join(state, action) {
 
     networks[name].pendingNodes[caller] = {
         url: url,
-        height: SmartWeave.block.height,
+        joinHeight: SmartWeave.block.height,
+        startHeight: -1,
         claims: 0,
     };
 

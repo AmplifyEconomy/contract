@@ -10,6 +10,7 @@ export function Create(state, action) {
     const consensus = input.consensus;
     const network = input.network;
     const networkAppName = input.networkAppName;
+    const networkId = input.networkId;
     const token = input.token;
     const pool = input.pool;
     const epoch = input.epoch;
@@ -33,14 +34,15 @@ export function Create(state, action) {
         "consensus": consensus,
         "network": network,
         "networkAppName": networkAppName,
+        "networkId": networkId,
         "token": token,
         "pool": pool,
         "epoch": epoch,
         "distribution": distribution,
         "maxNodes": nodes,
         "startHeight": SmartWeave.block.height,
-        "pendingNodes": [],
-        "nodes": []
+        "pendingNodes": {},
+        "nodes": {}
     }
 
     return { state }

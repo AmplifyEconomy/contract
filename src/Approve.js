@@ -20,6 +20,7 @@ export function Approve(state, action) {
     }
 
     networks[name].nodes[address] = networks[name].pendingNodes[address];
+    networks[name].nodes[address].startHeight = SmartWeave.block.height;
 
     delete networks[name].pendingNodes[address];
 

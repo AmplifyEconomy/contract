@@ -68,6 +68,7 @@ function Create(state, action) {
     const consensus = input.consensus;
     const network = input.network;
     const networkAppName = input.networkAppName;
+    const networkId = input.networkId;
     const token = input.token;
     const pool = input.pool;
     const epoch = input.epoch;
@@ -91,14 +92,15 @@ function Create(state, action) {
         "consensus": consensus,
         "network": network,
         "networkAppName": networkAppName,
+        "networkId": networkId,
         "token": token,
         "pool": pool,
         "epoch": epoch,
         "distribution": distribution,
         "maxNodes": nodes,
         "startHeight": SmartWeave.block.height,
-        "pendingNodes": [],
-        "nodes": []
+        "pendingNodes": {},
+        "nodes": {}
     };
 
     return { state }
@@ -129,6 +131,26 @@ function Name(state, action) {
     return { result: 'OK' }
 }
 
+function Delete(state, action) {
+    const balances = state.balances;
+    const networks = state.networks;
+    const input = action.input;
+    
+    const caller = action.caller;
+
+    const name = input.name;
+
+    if (networks[name].owner !== caller) {
+        throw new ContractError('You are not the network owner');
+    }
+
+    balances[caller] += qty;
+
+    delete networks[name];
+
+    return { state }
+}
+
 function Join(state, action) {
     const networks = state.networks;
     const input = action.input;
@@ -156,7 +178,8 @@ function Join(state, action) {
 
     networks[name].pendingNodes[caller] = {
         url: url,
-        height: SmartWeave.block.height,
+        joinHeight: SmartWeave.block.height,
+        startHeight: -1,
         claims: 0,
     };
 
@@ -185,6 +208,7 @@ function Approve(state, action) {
     }
 
     networks[name].nodes[address] = networks[name].pendingNodes[address];
+    networks[name].nodes[address].startHeight = SmartWeave.block.height;
 
     delete networks[name].pendingNodes[address];
 
@@ -352,6 +376,8 @@ async function handle(state, action) {
       return Create(state, action);
     case 'name':
       return Name(state, action);
+    case 'delete':
+      return Delete(state, action);
     case 'network':
       return Network(state, action);
     case 'join':
