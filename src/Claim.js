@@ -19,24 +19,32 @@ export function Claim(state, action) {
     const distribution = networks[name].distribution;
     const node = networks[name].nodes[caller];
     const claims = node.claims;
-    const nodeHeight = node.height;
+    const nodeHeight = node.startHeight;
     const currentHeight = SmartWeave.block.height;
 
     const delta = currentHeight  - nodeHeight;
     const epochs = Math.floor(delta / epoch);
-    const pendingClaims = epochs - claims;
-    const netDistribution = pendingClaims * distribution;
+    const pendingClaims = parseInt(epochs - claims);
+    const netDistribution = parseFloat(pendingClaims * distribution);
+
+    if (Number.isNaN(pendingClaims)) {
+        throw new ContractError('Invalid value for "pendingClaims". Must be an integer')
+    }
+
+    if (Number.isNaN(netDistribution)) {
+        throw new ContractError('Invalid value for "netDistribution". Must be a float')
+    }
 
     if (networks[name].pool < netDistribution) {
         throw new ContractError('Pool balance is too low to make a claim');
     }
 
-    networks[name].pool -= qty
+    networks[name].pool -= netDistribution;
     
     if (target in balances) {
-        balances[target] += qty
+        balances[target] += netDistribution;
     } else {
-        balances[target] = qty
+        balances[target] = netDistribution;
     }
 
 

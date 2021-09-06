@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 function Transfer(state, action) {
     const balances = state.balances;
     const input = action.input;

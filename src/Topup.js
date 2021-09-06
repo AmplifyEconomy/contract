@@ -6,7 +6,11 @@ export function Topup(state, action) {
     const caller = action.caller;
 
     const name = input.name;
-    const pool = input.pool;
+    const pool = parseFloat(input.pool);
+
+    if (Number.isNaN(pool)) {
+        throw new ContractError('Invalid value for "pool". Must be a float')
+    }
 
     if (!networks[name]) {
         throw new ContractError('Network does not exist');
@@ -16,8 +20,8 @@ export function Topup(state, action) {
         throw new ContractError('AMP balance invalid for topping up pool');
     }
 
-    balances[caller] -= pool;
-    networks[name].pool += pool;
+    balances[caller] = parseFloat(balances[caller]) - pool;
+    networks[name].pool = parseFloat(networks[name]).pool + pool;
 
     return { state }
 }

@@ -12,10 +12,26 @@ export function Create(state, action) {
     const networkAppName = input.networkAppName;
     const networkId = input.networkId;
     const token = input.token;
-    const pool = input.pool;
-    const epoch = input.epoch;
-    const distribution = input.distribution;
-    const nodes = input.nodes;
+    const pool = parseFloat(input.pool);
+    const epoch = parseInt(input.epoch);
+    const distribution = parseFloat(input.distribution);
+    const nodes = parseInt(input.nodes);
+
+    if (Number.isNaN(pool)) {
+        throw new ContractError('Invalid value for "pool". Must be a float')
+    }
+
+    if (Number.isNaN(epoch)) {
+        throw new ContractError('Invalid value for "epoch". Must be an integer')
+    }
+
+    if (Number.isNaN(distribution)) {
+        throw new ContractError('Invalid value for "distribution". Must be a float')
+    }
+
+    if (Number.isNaN(nodes)) {
+        throw new ContractError('Invalid value for "nodes". Must be an integer')
+    }
 
     if (networks[name]) {
         throw new ContractError('Name already in use');
